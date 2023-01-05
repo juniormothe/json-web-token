@@ -1,7 +1,8 @@
 <?php
 
-class KEY
+class key
 {
+    public static $securitykey = 'securitykey.json';
 
     public function securitykey(int $type)
     {
@@ -17,7 +18,7 @@ class KEY
 
     private function jsonToArray()
     {
-        return json_decode(file_get_contents('securitykey.json'), true);
+        return json_decode(file_get_contents(self::$securitykey), true);
     }
 
     private function checkDateJson()
@@ -25,15 +26,15 @@ class KEY
         $arrayJson = $this->jsonToArray();
         if ($arrayJson[count($arrayJson)]['date'] < date('Ym')) {
             $arrayJson[(count($arrayJson) + 1)] = ['date' => date('Ym'), 'key' => $this->createKey()];
-            file_put_contents('securitykey.json', json_encode($arrayJson));
+            file_put_contents(self::$securitykey, json_encode($arrayJson));
         }
     }
 
     private function createJson()
     {
-        if (!file_exists('securitykey.json')) {
+        if (!file_exists(self::$securitykey)) {
             $data = ['1' => ['date' => date('Ym'), 'key' => $this->createKey()]];
-            file_put_contents('securitykey.json', json_encode($data));
+            file_put_contents(self::$securitykey, json_encode($data));
         }
     }
 
