@@ -2,6 +2,11 @@
 
 require 'security/key.php';
 
+
+/**
+ * 
+*/
+
 class jwt extends key
 {
     private $key;
@@ -45,6 +50,7 @@ class jwt extends key
                 TRUE
             );
             if ($this->base64url_encode($signatureValidate) == $token[2]) {
+                unset($dataJson['key_reference']);
                 return $dataJson;
             } else {
                 return FALSE;
@@ -52,6 +58,10 @@ class jwt extends key
         } else {
             return FALSE;
         }
+    }
+
+    public function validateArchive($jwt)
+    {
     }
 
     private function base64url_encode($data)
