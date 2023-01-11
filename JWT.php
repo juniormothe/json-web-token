@@ -43,15 +43,19 @@ class jwt extends key
         if ($this->checkSplit($jwt)) {
             $token = explode('.', $jwt);
             $dataJson = json_decode($this->base64url_decode($token[1]), true);
-            $signatureValidate = hash_hmac(
-                "sha256",
-                $token[0] . "." . $token[1],
-                $this->arrayKey[$dataJson['key_reference']]['key'],
-                TRUE
-            );
-            if ($this->base64url_encode($signatureValidate) == $token[2]) {
-                unset($dataJson['key_reference']);
-                return $dataJson;
+            if (isset($dataJson['key_reference'])) {
+                $signatureValidate = hash_hmac(
+                    "sha256",
+                    $token[0] . "." . $token[1],
+                    $this->arrayKey[$dataJson['key_reference']]['key'],
+                    TRUE
+                );
+                if ($this->base64url_encode($signatureValidate) == $token[2]) {
+                    unset($dataJson['key_reference']);
+                    return $dataJson;
+                } else {
+                    return FALSE;
+                }
             } else {
                 return FALSE;
             }
