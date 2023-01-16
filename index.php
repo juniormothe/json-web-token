@@ -9,9 +9,8 @@ if ((isset($_POST['token'])) && (!empty($_POST['token']))) {
 } else {
     require 'jwt.php';
     $jwt = new jwt();
-    $token = $jwt->create(['id' => rand(0, 99)]);
+    $token = $jwt->create(['id' => rand(0, 999)]);
 ?>
-
     <!DOCTYPE html>
     <html lang="pt-br">
 
