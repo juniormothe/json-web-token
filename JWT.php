@@ -3,7 +3,7 @@
 require 'security/key.php';
 
 /**
- * 
+ * Classe responsável por gerar e validar um Json Web Token
 */
 
 class jwt extends key
@@ -61,10 +61,6 @@ class jwt extends key
         } else {
             return FALSE;
         }
-    }
-
-    public function validateArchive($jwt)
-    {
     }
 
     private function base64url_encode($data)

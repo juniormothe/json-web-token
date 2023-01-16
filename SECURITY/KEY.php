@@ -1,9 +1,20 @@
 <?php
 
+/**
+ * Classe responsável por gerar a chave de autenticação, chave atualiza mensalmente
+ */
+
 class key
 {
+    /**
+     * Parâmetro com caminho do arquivo json com as chaves de autenticação
+     */
     public static $securitykey = 'securitykey.json';
 
+    /**
+     * Método para retornar a ultima chave ou um array com todas as chaves
+     * Parâmetro type obrigatório (1 retorna a ultima chave, diferente de 1 retorna um array com todas as chaves)
+     */
     public function securitykey(int $type)
     {
         $this->createJson();
@@ -16,11 +27,17 @@ class key
         }
     }
 
+    /**
+     * Método para converter json em array
+     */
     private function jsonToArray()
     {
         return json_decode(file_get_contents(self::$securitykey), true);
     }
 
+    /**
+     * Método para atualizar a chave mensalmente
+     */
     private function checkDateJson()
     {
         $arrayJson = $this->jsonToArray();
@@ -30,6 +47,9 @@ class key
         }
     }
 
+    /**
+     * Método para criar arquivo jason com a primeira chave
+     */
     private function createJson()
     {
         if (!file_exists(self::$securitykey)) {
@@ -38,6 +58,9 @@ class key
         }
     }
 
+    /**
+     * Método para gera a chave em 256-bit
+     */
     private function createKey()
     {
         $key = openssl_random_pseudo_bytes(rand(0, 99));
