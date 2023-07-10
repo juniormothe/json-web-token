@@ -68,22 +68,6 @@ class key
             openssl_cipher_iv_length('aes-256-ctr')
         );
         $data = $_SERVER['HTTP_HOST'] . time() . rand(0, 99);
-        return str_replace(
-            ",",
-            "",
-            str_replace(
-                "\\",
-                "",
-                str_replace(
-                    "/",
-                    "",
-                    str_replace(
-                        "}",
-                        "",
-                        str_replace("{", "", openssl_encrypt($data, 'aes-256-ctr', $key, 0, $iv))
-                    )
-                )
-            )
-        );
+        return str_replace([",", "\\", "/", "}", "{"], ["", "", "", "", ""], openssl_encrypt($data, 'aes-256-ctr', $key, 0, $iv));
     }
 }
